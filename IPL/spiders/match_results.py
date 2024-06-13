@@ -7,8 +7,8 @@ class MatchResultsSpider(scrapy.Spider):
 
     custom_settings = {
         'FEEDS': {
-            'stats/matches_played.csv': {
-                'format': 'csv',
+            'Stats/matches_played.json': {
+                'format': 'json',
                 'overwrite': True
             }
         }

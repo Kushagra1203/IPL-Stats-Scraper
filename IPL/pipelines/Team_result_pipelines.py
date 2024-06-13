@@ -11,12 +11,22 @@ import os
 
 class TeamsPipeline:
     def __init__(self):
+        connection_string = os.getenv("MONGO_CONNECTION_STRING")
+        if not connection_string:
+            raise EnvironmentError("MONGO_CONNECTION_STRING is not set in the environment variables")
         # Connect to MongoDB
-        self.client = pymongo.MongoClient(os.getenv("MONGO_CONNECTION_STRING"))
+        self.client = pymongo.MongoClient(connection_string)
         # Create or connect to the database
         self.db = self.client["IPL_Stats"]
         # Create or connect to the collection
         self.collection = self.db["team_results"]
+        # Map old team names to new team names
+        self.team_names = {
+            "Delhi Capitals": "Delhi Daredevils",
+            "Punjab Kings": "Kings XI Punjab",
+            "Rising Pune Supergiant": "Rising Pune Supergiants",
+            "Royal Challengers Bengaluru": "Royal Challengers Bangalore"
+        }
         
     def process_item(self, item, spider):
 
@@ -25,9 +35,8 @@ class TeamsPipeline:
         
         adapter = ItemAdapter(item)
         
-        # Replace "Royal Challengers Bengaluru" with "Royal Challengers Bangalore"
-        if adapter['Team'] == "Royal Challengers Bengaluru":
-            adapter['Team'] = "Royal Challengers Bangalore"
+        if adapter['Team'] in self.team_names:
+            adapter['Team'] = self.team_names[adapter['Team']]
         
         playing_span = adapter.get('Playing_Span').split('-')
         adapter['start_year'] = int(playing_span[0])
@@ -45,7 +54,7 @@ class TeamsPipeline:
 
         self.collection.update_one(
             {'Team': adapter['Team']},  # filter
-            {'$set': adapter.asdict()},  # update
+            {'$set': adapter.asdict()},  # replacement
             upsert=True  # options
         )
 

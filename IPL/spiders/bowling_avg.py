@@ -9,7 +9,7 @@ class BowlingAvgSpider(scrapy.Spider):
 
     custom_settings = {
         'FEEDS': {
-            'stats/bowling_avg.csv': {
+            'Stats/bowling_avg.csv': {
                 'format': 'csv',
                 'overwrite': True
             }

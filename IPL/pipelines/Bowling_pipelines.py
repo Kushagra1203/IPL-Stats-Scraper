@@ -12,8 +12,11 @@ import os
 class BowlingAvgPipeline:
     
     def __init__(self):
+        connection_string = os.getenv("MONGO_CONNECTION_STRING")
+        if not connection_string:
+            raise EnvironmentError("MONGO_CONNECTION_STRING is not set in the environment variables")
         # Connect to MongoDB
-        self.client = pymongo.MongoClient(os.getenv("MONGO_CONNECTION_STRING"))
+        self.client = pymongo.MongoClient(connection_string)
         # Create or connect to the database
         self.db = self.client["IPL_Stats"]
         # Create or connect to the collection

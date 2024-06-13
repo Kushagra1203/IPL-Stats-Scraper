@@ -8,7 +8,7 @@ class TeamResultSpider(scrapy.Spider):
 
     custom_settings = {
         'FEEDS': {
-            'stats/Team_Result.json': {
+            'Stats/Team_Result.json': {
                 'format': 'json',
                 'overwrite': True
             }

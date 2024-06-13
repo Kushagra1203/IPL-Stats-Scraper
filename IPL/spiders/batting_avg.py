@@ -8,7 +8,7 @@ class batting_avg(scrapy.Spider):
     
     custom_settings = {
         'FEEDS': {
-            'stats/batting_avg.csv': {
+            'Stats/batting_avg.csv': {
                 'format': 'csv',
                 'overwrite': True
             }
