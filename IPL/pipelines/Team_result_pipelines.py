@@ -9,7 +9,13 @@ from itemadapter import ItemAdapter
 import pymongo
 
 class TeamsPipeline:
-    
+    def __init__(self):
+        # Connect to MongoDB
+        self.client = pymongo.MongoClient("mongodb+srv://admin:Santosh1210%40@projects.cqzixbp.mongodb.net/")
+        # Create or connect to the database
+        self.db = self.client["IPL_Stats"]
+        # Create or connect to the collection
+        self.collection = self.db["team_results"]
         
     def process_item(self, item, spider):
 
@@ -32,4 +38,9 @@ class TeamsPipeline:
         for field in convert_to_float:
             adapter[field]=float(adapter.get(field,0.0))
         
+        self.collection.update_one(
+            {'Team': adapter['Team']},  # filter
+            {'$set': adapter.asdict()},  # update
+            upsert=True  # options
+        )
         return item

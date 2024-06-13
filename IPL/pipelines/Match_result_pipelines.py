@@ -30,7 +30,7 @@ class MatchesPipeline:
             'RR': 'Rajasthan Royals',
             'SRH': 'Sunrisers Hyderabad',
             'Chargers': 'Deccan Chargers',  
-            'Warriors': 'Pune Warriors India',  
+            'Warriors': 'Pune Warriors',  
             'Guj Lions': 'Gujarat Lions',  
             'Supergiants': 'Rising Pune Supergiant',  
             'Kochi': 'Kochi Tuskers Kerala', 
@@ -45,6 +45,12 @@ class MatchesPipeline:
             return item
         
         adapter = ItemAdapter(item)
+        
+        # Skip matches involving Delhi Capitals and Kings XI Punjab
+        if ('DC' in [adapter.get('Team_1'), adapter.get('Team_2')] or 
+            'Kings XI' in [adapter.get('Team_1'), adapter.get('Team_2')] or 
+            'Supergiant' in [adapter.get('Team_1'), adapter.get('Team_2')]):
+            return  # Do not return anything
         
         match_date_str = adapter.get('Match_Date')
         if '-' in match_date_str:
