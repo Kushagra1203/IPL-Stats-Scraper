@@ -9,7 +9,15 @@ from itemadapter import ItemAdapter
 import pymongo
 
 class TeamsPipeline:
-    
+
+    def __init__(self):
+        # Replace 'username', 'password', 'your-cluster-url', 'your-database', and 'your-collection' with your actual values
+        # Connect to MongoDB
+        self.client = pymongo.MongoClient("mongodb+srv://username:password@your-cluster-url")
+        # Create or connect to the database
+        self.db = self.client["your-database"]
+        # Create or connect to the collection
+        self.collection = self.db["your-collection"]
         
     def process_item(self, item, spider):
 
@@ -31,5 +39,11 @@ class TeamsPipeline:
         convert_to_float=['Win_Loss_ratio', 'Percent_Won', 'Percent_Lost', 'Result_Percent']
         for field in convert_to_float:
             adapter[field]=float(adapter.get(field,0.0))
+
+        self.collection.update_one(
+            {'Team': adapter['Team']},  # filter
+            {'$set': adapter.asdict()},  # update
+            upsert=True  # options
+        )
         
         return item
