@@ -7,11 +7,12 @@
 # useful for handling different item types with a single interface
 from itemadapter import ItemAdapter
 import pymongo
+import os 
 
 class TeamsPipeline:
     def __init__(self):
         # Connect to MongoDB
-        self.client = pymongo.MongoClient("mongodb+srv://admin:Santosh1210%40@projects.cqzixbp.mongodb.net/")
+        self.client = pymongo.MongoClient(os.getenv("MONGO_CONNECTION_STRING"))
         # Create or connect to the database
         self.db = self.client["IPL_Stats"]
         # Create or connect to the collection
