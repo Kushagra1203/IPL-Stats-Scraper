@@ -18,7 +18,6 @@ class BattingAvgPipeline:
         # Create or connect to the collection
         self.collection = self.db["batting_avg"]
 
-
     def process_item(self, item, spider):
         if spider.name != 'batting_avg':
             return item

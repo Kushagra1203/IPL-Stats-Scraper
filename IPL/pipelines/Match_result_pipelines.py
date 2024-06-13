@@ -18,7 +18,6 @@ class MatchesPipeline:
         self.db = self.client["IPL_Stats"]
         # Create or connect to the collection
         self.collection = self.db["matches_played"]
-        # Create a dictionary that maps the short forms to the full forms
         self.team_names = {
             'CSK': 'Chennai Super Kings',
             'DC': 'Delhi Capitals',  

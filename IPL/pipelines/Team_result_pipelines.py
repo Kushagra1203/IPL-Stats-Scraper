@@ -37,10 +37,11 @@ class TeamsPipeline:
         convert_to_float=['Win_Loss_ratio', 'Percent_Won', 'Percent_Lost', 'Result_Percent']
         for field in convert_to_float:
             adapter[field]=float(adapter.get(field,0.0))
-        
+
         self.collection.update_one(
             {'Team': adapter['Team']},  # filter
             {'$set': adapter.asdict()},  # update
             upsert=True  # options
         )
+
         return item
