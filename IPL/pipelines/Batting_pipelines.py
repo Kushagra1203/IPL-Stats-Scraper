@@ -11,13 +11,13 @@ import pymongo
 class BattingAvgPipeline:
     
     def __init__(self):
-    # Replace 'username', 'password', 'your-cluster-url', 'your-database', and 'your-collection' with your actual values
-    # Connect to MongoDB
-    self.client = pymongo.MongoClient("mongodb+srv://username:password@your-cluster-url")
-    # Create or connect to the database
-    self.db = self.client["your-database"]
-    # Create or connect to the collection
-    self.collection = self.db["your-collection"]
+        # Replace 'username', 'password', 'your-cluster-url', 'your-database', and 'your-collection' with your actual values
+        # Connect to MongoDB
+        self.client = pymongo.MongoClient("mongodb+srv://username:password@your-cluster-url")
+        # Create or connect to the database
+        self.db = self.client["your-database"]
+        # Create or connect to the collection
+        self.collection = self.db["your-collection"]
 
     def process_item(self, item, spider):
         if spider.name != 'batting_avg':
