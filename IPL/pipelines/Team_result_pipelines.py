@@ -25,6 +25,10 @@ class TeamsPipeline:
         
         adapter = ItemAdapter(item)
         
+        # Replace "Royal Challengers Bengaluru" with "Royal Challengers Bangalore"
+        if adapter['Team'] == "Royal Challengers Bengaluru":
+            adapter['Team'] = "Royal Challengers Bangalore"
+        
         playing_span = adapter.get('Playing_Span').split('-')
         adapter['start_year'] = int(playing_span[0])
         adapter['last_played_year'] = int(playing_span[1])
